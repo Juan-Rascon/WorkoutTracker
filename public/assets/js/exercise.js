@@ -17,6 +17,8 @@ const newWorkout = document.querySelector(".new-workout")
 let workoutType = null;
 let shouldNavigateAway = false;
 
+
+//This function automatically creates a new workout instance if there isn't one.
 async function initExercise() {
   let workout;
 

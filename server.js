@@ -7,7 +7,13 @@ const html_routes = require("./routes/html_routes");
 
 const PORT = process.env.PORT || 3000;
 
-const db = require("./models");
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workout";
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useFindAndModify: false
+});
+
 
 //Create instance of express
 const app = express();
@@ -23,8 +29,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')))
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populate", { useNewUrlParser: true });
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
   });
+
