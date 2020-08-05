@@ -18,15 +18,15 @@ mongoose.connect(MONGODB_URI, {
 //Create instance of express
 const app = express();
 
-//Routes
-app.use('/api', api);
-app.use('/', html_routes);
-
 //Middleware
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')))
+
+//Routes
+app.use('/api', api);
+app.use('/', html_routes);
 
 
 app.listen(PORT, () => {

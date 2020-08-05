@@ -15,7 +15,6 @@ router.get('/workouts', (req, res) => {
 });
 
 router.put('/workouts/:id', (req, res) => {
-    console.log(req.body);
     db.Workout.update(
         {
           _id: req.params.id
