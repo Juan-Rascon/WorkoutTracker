@@ -5,6 +5,7 @@ const db = require('../models')
 
 router.get('/workouts', (req, res) => {
     db.Workout.find({})
+    .sort({day: 1})
     .then(dbTrans => {
         res.json(dbTrans);
     })
@@ -14,22 +15,34 @@ router.get('/workouts', (req, res) => {
 });
 
 router.put('/workouts/:id', (req, res) => {
-    db.Workout.findByIdAndUpdate({ _id: req.params.id }, { exercises: [req.body] })
-    .then((dbWorkout) => {
-        res.json(dbWorkout);
-      }).catch(err => {
-        res.status(400).json(err);
-      });
+    console.log(req.body);
+    db.Workout.update(
+        {
+          _id: req.params.id
+        },
+        {
+          $push: {
+            exercises: req.body
+          }
+        },
+        (error, data) => {
+          if (error) {
+            res.send(error);
+          } else {
+            res.send(data);
+          }
+        }
+      );
 });
 
 router.post('/workouts', (req, res) => {
-    db.Workout.create({day:new Date(), exercises:[]})
-    .then(dbTrans => {
-        res.json(dbTrans);
+    db.Workout.create({})
+    .then(dbWorkout => {
+      res.json(dbWorkout);
     })
-     .catch(err =>{
-        res.status(400).json(err);
-    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
 });
 
 router.get('/workouts/range', (req, res) => {
